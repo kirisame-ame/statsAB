@@ -4,5 +4,5 @@
   <Component type="ScriptPanel" id="SpectrumPanel" x="30" y="110" width="1000"
              height="250" processorId="SpectrumFX"/>
   <Component type="ScriptPanel" id="SpectrumPanel2" x="30" y="360" width="1000"
-             height="250" processorId="SpectrumFX2"/>
+             height="250" processorId="SpectrumFX2" visible="0"/>
 </ContentProperties>

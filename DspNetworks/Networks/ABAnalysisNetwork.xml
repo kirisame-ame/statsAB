@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Network ID="ABAnalysisNetwork" Version="0.0.0" CompileChannelAmount="4">
+  <Node FactoryPath="container.chain" ID="ABAnalysisNetwork" Bypassed="0"
+        Name="ABAnalysisNetwork">
+    <Nodes>
+      <Node ID="multi" FactoryPath="container.multi" Bypassed="0" Name="multi">
+        <Nodes>
+          <Node ID="fft" FactoryPath="analyse.fft" Bypassed="0" Name="fft_a">
+            <ComplexData>
+              <DisplayBuffers>
+                <DisplayBuffer Index="0"/>
+              </DisplayBuffers>
+            </ComplexData>
+            <Parameters/>
+          </Node>
+          <Node ID="fft1" FactoryPath="analyse.fft" Bypassed="0" Name="fft_b">
+            <ComplexData>
+              <DisplayBuffers>
+                <DisplayBuffer Index="1"/>
+              </DisplayBuffers>
+            </ComplexData>
+            <Parameters/>
+          </Node>
+        </Nodes>
+        <Parameters/>
+      </Node>
+    </Nodes>
+    <Parameters/>
+  </Node>
+</Network>
