@@ -1,0 +1,10 @@
+Binaries/
+Presets/
+AudioFiles/
+Expansions/
+Samples/
+PooledResources/
+*build
+expansion_info.xml
+
+.agents/

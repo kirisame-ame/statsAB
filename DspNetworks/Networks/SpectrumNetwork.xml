@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Network ID="SpectrumNetwork" Version="0.0.0">
+  <Node FactoryPath="container.chain" ID="SpectrumNetwork" Bypassed="0"
+        Name="SpectrumNetwork">
+    <Nodes>
+      <Node ID="fft" FactoryPath="analyse.fft" Bypassed="0" Name="SpectrumFFT">
+        <ComplexData>
+          <DisplayBuffers>
+            <DisplayBuffer Index="0" EmbeddedData=""/>
+          </DisplayBuffers>
+        </ComplexData>
+        <Parameters/>
+      </Node>
+    </Nodes>
+    <Parameters/>
+  </Node>
+</Network>
