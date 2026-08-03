@@ -22,6 +22,35 @@ spectrumBufferB.setRingBufferProperties(spectrumProperties);
 
 const var SpectrumPanel = Content.getComponent("SpectrumPanel");
 
+
+
+const var GoniometerPanel = Content.getComponent("GoniometerPanel")
+
+const var goniometerBufferA = spectrumSource.getDisplayBuffer(2);
+const var goniometerBufferB = spectrumSource.getDisplayBuffer(3);
+// The HISE goniometer ring buffer is 512 samples in this build.
+const var goniometerReadBufferAL = Buffer.create(512);
+const var goniometerReadBufferAR = Buffer.create(512);
+const var goniometerReadBufferBL = Buffer.create(512);
+const var goniometerReadBufferBR = Buffer.create(512);
+
+const var goniometerReadBuffersA = [
+    goniometerReadBufferAL,
+    goniometerReadBufferAR
+];
+
+const var goniometerReadBuffersB = [
+    goniometerReadBufferBL,
+    goniometerReadBufferBR
+];
+
+GoniometerPanel.data.pathA = Content.createPath();
+GoniometerPanel.data.pathB = Content.createPath();
+
+
+
+
+
 // SpectrumPanel is the shared A/B overlay. Remove SpectrumPanel2 later in the
 // HISE interface editor once this migration has been validated.
 
@@ -118,6 +147,117 @@ inline function updateSpectrumPath(displayBuffer, readBuffer, path, area)
     }
 }
 
+inline function updateGoniometerPath(displayBuffer, readBuffers, path, area)
+{
+    local i;
+    local numPoints;
+    local left;
+    local right;
+    local mid;
+    local side;
+    local x;
+    local y;
+    
+    
+
+    // Initial assumption: the goniometer buffer contains interleaved L/R.
+    // Convert each pair to M/S coordinates for a centred stereo-field plot.
+    displayBuffer.copyReadBuffer(readBuffers);
+    path.clear();
+    local leftBuffer = readBuffers[0];
+	local rightBuffer = readBuffers[1];
+	local numPoints = 512;
+
+    for(i = 0; i < numPoints; i++)
+    {
+        left = leftBuffer[i];
+    	right = rightBuffer[i];
+        mid = Math.range(0.5 * (left + right), -1.0, 1.0);
+        side = Math.range(0.5 * (left - right), -1.0, 1.0);
+
+        x = area[0] + 0.5 * (side + 1.0) * area[2];
+        y = area[1] + (1.0 - 0.5 * (mid + 1.0)) * area[3];
+
+        if(i == 0)
+            path.startNewSubPath(x, y);
+        else
+            path.lineTo(x, y);
+    }
+}
+
+inline function paintGoniometerGrid(g, panel, title)
+{
+    local area = [34, 24, panel.getWidth()-68, panel.getHeight() - 48];
+    local left = area[0];
+    local top = area[1];
+    local right = area[0] + area[2];
+    local bottom = area[1] + area[3];
+    local centreX = left + area[2] * 0.5;
+    local centreY = top + area[3] * 0.5;
+
+    g.fillAll(0xFF101216);
+    g.setFont("Oxygen", 11.0);
+    g.setColour(0xFF9299A6);
+    g.drawAlignedText(title, [area[0], 4, area[2], 16], "centred");
+
+    g.setColour(0x283F4652);
+    g.drawRect(area, 1.0);
+    g.drawHorizontalLine(Math.round(centreY), left, right);
+    g.drawVerticalLine(Math.round(centreX), top, bottom);
+
+    // HISE drawLine uses the argument order x1, x2, y1, y2, thickness.
+    g.drawLine(left, right, top, bottom, 1.0); // NW -> SE
+    g.drawLine(left, right, bottom, top, 1.0); // SW -> NE
+
+    g.drawEllipse(area, 1.0);
+
+    g.setColour(0xFF687181);
+    g.drawAlignedText("M", [centreX - 14, top + 4, 28, 14], "centred");
+    g.drawAlignedText("L", [left + 4, top + 4, 24, 14], "left");
+    g.drawAlignedText("R", [right - 28, top + 4, 24, 14], "right");
+    g.drawAlignedText("S", [left - 28, centreY - 7, 24, 14], "right");
+    g.drawAlignedText("S", [right + 4, centreY - 7, 24, 14], "left");
+}
+
+inline function drawGoniometerDots(g, readBuffers, area)
+{
+    local i;
+    local numPoints = 512;
+    local leftBuffer = readBuffers[0];
+	local rightBuffer = readBuffers[1];
+	local left;
+	local right;
+    local mid;
+    local side;
+    local x;
+    local y;
+    local dotSize = 3.0;
+
+    for(i = 0; i < numPoints; i++)
+    {
+        left = leftBuffer[i];
+        right = rightBuffer[i];
+        mid = Math.range(0.5 * (left + right), -1.0, 1.0);
+        side = Math.range(0.5 * (left - right), -1.0, 1.0);
+        x = area[0] + 0.5 * (side + 1.0) * area[2];
+        
+        y = area[1] + (1.0 - 0.5 * (mid + 1.0)) * area[3];
+        g.fillEllipse([x - dotSize * 0.5, y - dotSize * 0.5, dotSize, dotSize]);
+    }
+}
+GoniometerPanel.setPaintRoutine(function(g)
+{
+    var area = [34, 24, this.getWidth() - 68, this.getHeight() - 48];
+
+    paintGoniometerGrid(g, this, "GONIOMETER");
+
+    g.setColour(0x9955C8FF);
+    drawGoniometerDots(g, goniometerReadBuffersA, area);
+
+    g.setColour(0x99FF4D4D);
+    drawGoniometerDots(g, goniometerReadBuffersB, area);
+});
+
 SpectrumPanel.setPaintRoutine(function(g)
 {
     var area = getSpectrumArea(this);
@@ -210,11 +350,29 @@ SpectrumPanel.setTimerCallback(function()
         area
     );
 
+    updateGoniometerPath(
+    goniometerBufferA,
+    goniometerReadBuffersA,
+    GoniometerPanel.data.pathA,
+    [34, 24, GoniometerPanel.getWidth() - 46, GoniometerPanel.getHeight() - 48]
+);
+
+updateGoniometerPath(
+    goniometerBufferB,
+    goniometerReadBuffersB,
+    GoniometerPanel.data.pathB,
+    [34, 24, GoniometerPanel.getWidth() - 46, GoniometerPanel.getHeight() - 48]
+);
+
     this.repaint();
+    GoniometerPanel.repaint();
+ 
 });
 
 spectrumBufferA.setActive(true);
 spectrumBufferB.setActive(true);
+goniometerBufferA.setActive(true);
+goniometerBufferB.setActive(true);
 SpectrumPanel.startTimer(33);
 
 function onNoteOn()

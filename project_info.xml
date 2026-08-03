@@ -42,5 +42,5 @@
   <CompileWithPerfetto value="No"/>
   <CompileWithDebugSymbols value="No"/>
   <IncludeLorisInFrontend value="No"/>
-  <ProjectType value="Instrument"/>
+  <ProjectType value="FX plugin"/>
 </ProjectSettings>

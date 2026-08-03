@@ -21,47 +21,23 @@
     </Processor>
     <Processor Type="EffectChain" ID="FX" Bypassed="0">
       <ChildProcessors>
-        <Processor Type="ScriptFX" ID="ABAnalysisFX" Bypassed="0" NumDisplayBuffers="2">
+        <Processor Type="ScriptFX" ID="ABAnalysisFX" Bypassed="0" NumDisplayBuffers="4">
           <ChildProcessors/>
           <RoutingMatrix NumSourceChannels="4" Channel0="0" Send0="-1" Channel1="1" Send1="-1"
                          Channel2="2" Send2="-1" Channel3="3" Send3="-1"/>
           <Content/>
           <Networks>
-            <Network ID="ABAnalysisNetwork" Version="0.0.0" CompileChannelAmount="4"/>
+            <Network ID="ABAnalysisNetwork" Version="0.0.0" CompileChannelAmount="8"/>
           </Networks>
           <UIData>
             <ContentProperties DeviceType="Desktop"/>
           </UIData>
         </Processor>
         <Processor Type="Analyser" ID="Analyzer" Bypassed="0" BufferSize="8192.0"
-                   PreviewType="1.0">
+                   PreviewType="4.0">
           <ChildProcessors/>
           <RoutingMatrix NumSourceChannels="4" Channel0="0" Send0="-1" Channel1="1" Send1="-1"
                          Channel2="-1" Send2="-1" Channel3="-1" Send3="-1"/>
-        </Processor>
-        <Processor Type="ScriptFX" ID="SpectrumFX" Bypassed="0" NumDisplayBuffers="2">
-          <ChildProcessors/>
-          <RoutingMatrix NumSourceChannels="4" Channel0="0" Send0="-1" Channel1="1" Send1="-1"
-                         Channel2="-1" Send2="-1" Channel3="-1" Send3="-1"/>
-          <Content/>
-          <Networks>
-            <Network ID="SpectrumNetwork" Version="0.0.0"/>
-          </Networks>
-          <UIData>
-            <ContentProperties DeviceType="Desktop"/>
-          </UIData>
-        </Processor>
-        <Processor Type="ScriptFX" ID="SpectrumFX2" Bypassed="0" NumDisplayBuffers="2">
-          <ChildProcessors/>
-          <RoutingMatrix NumSourceChannels="4" Channel0="-1" Send0="-1" Channel1="-1"
-                         Send1="-1" Channel2="2" Send2="-1" Channel3="3" Send3="-1"/>
-          <Content/>
-          <Networks>
-            <Network ID="SpectrumNetwork" Version="0.0.0"/>
-          </Networks>
-          <UIData>
-            <ContentProperties DeviceType="Desktop"/>
-          </UIData>
         </Processor>
       </ChildProcessors>
     </Processor>
@@ -120,14 +96,20 @@
           <ChildProcessors/>
         </Processor>
       </ChildProcessors>
-      <RoutingMatrix NumSourceChannels="2" Channel0="0" Send0="-1" Channel1="2" Send1="-1"/>
+      <RoutingMatrix NumSourceChannels="2" Channel0="0" Send0="-1" Channel1="3" Send1="-1"/>
       <channels>
         <channelData enabled="1" level="0.0" suffix=""/>
       </channels>
       <samplemap CrossfadeGamma="1.0">
-        <sample Root="60" LoKey="60" HiKey="60" LoVel="0" HiVel="127" RRGroup="1"
+        <sample Root="59" LoKey="59" HiKey="59" LoVel="0" HiVel="127" RRGroup="1"
                 FileName="C:\Users\Lenovo\Music\yonige&#12300;&#33469;&#21561;&#12367;&#12392;&#12365;&#12301; official music video.wav"
                 Duplicate="0" LoopXFade="0" LoopStart="120588" SampleStart="120588"/>
+        <sample Root="61" LoKey="61" HiKey="61" LoVel="0" HiVel="127" RRGroup="1"
+                FileName="C:\Users\Lenovo\Music\references\&#12520;&#12523;&#12471;&#12459; - &#33457;&#12395;&#20129;&#38666;&#65288;OFFICIAL VIDEO&#65289;.wav"
+                Duplicate="0" LoopXFade="0" LoopStart="2127169" SampleStart="2127169"/>
+        <sample Root="60" LoKey="60" HiKey="60" LoVel="0" HiVel="127" RRGroup="1"
+                FileName="C:\Users\Lenovo\Music\references\&#12520;&#12523;&#12471;&#12459; - &#12384;&#12363;&#12425;&#20693;&#12399;&#38899;&#27005;&#12434;&#36766;&#12417;&#12383; (Music Video).wav"
+                Duplicate="0" LoopXFade="0" LoopStart="3169680" SampleStart="3169680"/>
       </samplemap>
     </Processor>
   </ChildProcessors>
