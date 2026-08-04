@@ -8,7 +8,13 @@
       <ChildProcessors>
         <Processor Type="ScriptProcessor" ID="Interface" Bypassed="0">
           <ChildProcessors/>
-          <Content/>
+          <Content>
+            <Control type="ScriptButton" id="switch_B" value="0.0"/>
+            <Control type="ScriptSlider" id="peakASlider" value="-100.0"/>
+            <Control type="ScriptSlider" id="lufsASlider" value="-100.0"/>
+            <Control type="ScriptSlider" id="peakBSlider" value="-100.0"/>
+            <Control type="ScriptSlider" id="lufsBSlider" value="-100.0"/>
+          </Content>
           <UIData Source="saveUIData"/>
         </Processor>
       </ChildProcessors>
@@ -27,7 +33,8 @@
                          Channel2="2" Send2="-1" Channel3="3" Send3="-1"/>
           <Content/>
           <Networks>
-            <Network ID="ABAnalysisNetwork" Version="0.0.0" CompileChannelAmount="8"/>
+            <Network ID="ABAnalysisNetwork" Version="0.0.0" CompileChannelAmount="8"
+                     AllowCompilation="1" ShowComments="0"/>
           </Networks>
           <UIData>
             <ContentProperties DeviceType="Desktop"/>
@@ -41,7 +48,7 @@
         </Processor>
       </ChildProcessors>
     </Processor>
-    <Processor Type="StreamingSampler" ID="Sampler1" Bypassed="0" Gain="1.0"
+    <Processor Type="StreamingSampler" ID="Sampler1" Bypassed="1" Gain="1.0"
                Balance="0.0" VoiceLimit="256.0" KillFadeTime="20.0" IconColour="0"
                PreloadSize="8192.0" BufferSize="4096.0" VoiceAmount="256.0"
                SamplerRepeatMode="3.0" RRGroupAmount="1.0" PitchTracking="1.0"

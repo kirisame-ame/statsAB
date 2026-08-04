@@ -1,4 +1,14 @@
 Content.makeFrontInterface(1200, 1000);
+const var rm = Engine.getGlobalRoutingManager();
+
+const var peakACable = rm.getCable("peak_A");
+const var peakBCable = rm.getCable("peak_B");
+const var lufsACable  = rm.getCable("lufs_A");
+const var lufsBCable  = rm.getCable("lufs_B");
+lufsACable.setRange(-100.0, 0.0);
+lufsBCable.setRange(-100.0, 0.0);
+
+
 
 const var spectrumSource =
     Synth.getDisplayBufferSource("ABAnalysisFX");
@@ -21,8 +31,23 @@ spectrumBufferA.setRingBufferProperties(spectrumProperties);
 spectrumBufferB.setRingBufferProperties(spectrumProperties);
 
 const var SpectrumPanel = Content.getComponent("SpectrumPanel");
+const var peakAMeter = Content.getComponent("peakASlider");
+const var lufsAMeter = Content.getComponent("lufsASlider");
+const var peakBMeter = Content.getComponent("peakBSlider");
+const var lufsBMeter = Content.getComponent("lufsBSlider");
 
+const var label_lufs_A = Content.getComponent("label_lufs_A");
+const var label_lufs_B = Content.getComponent("label_lufs_B");
+const var label_peak_A = Content.getComponent("label_peak_A");
+const var label_peak_B = Content.getComponent("label_peak_B");
 
+const var meter_laf = Content.createLocalLookAndFeel();
+meter_laf.setStyleSheet("meters.css");
+
+peakAMeter.setLocalLookAndFeel(meter_laf);
+lufsAMeter.setLocalLookAndFeel(meter_laf);
+peakBMeter.setLocalLookAndFeel(meter_laf);
+lufsBMeter.setLocalLookAndFeel(meter_laf);
 
 const var GoniometerPanel = Content.getComponent("GoniometerPanel")
 
@@ -367,6 +392,30 @@ updateGoniometerPath(
     this.repaint();
     GoniometerPanel.repaint();
  
+    local peak_db_A = Engine.getDecibelsForGainFactor(
+            Math.max(peakACable.getValue(), 0.00001)
+        );
+ 	peakAMeter.setValue(Math.max(
+        -100.0, peak_db_A
+        
+    ));
+    label_peak_A.set("text",Engine.doubleToString(peak_db_A, 1));
+    
+ 	lufsAMeter.setValue(lufsACable.getValue());
+ 	label_lufs_A.set("text", Engine.doubleToString(lufsACable.getValue(),1));
+ 	
+ 	local peak_db_B = Engine.getDecibelsForGainFactor(
+ 	            Math.max(peakBCable.getValue(), 0.00001)
+ 	        );
+ 	peakBMeter.setValue(Math.max(
+ 	        -100.0,
+ 	        peak_db_B
+ 	    ));
+ 	    
+    label_peak_B.set("text",Engine.doubleToString(peak_db_B, 1));
+    
+ 	lufsBMeter.setValue(lufsBCable.getValue());
+ 	label_lufs_B.set("text", Engine.doubleToString(lufsBCable.getValue(),1));
 });
 
 spectrumBufferA.setActive(true);

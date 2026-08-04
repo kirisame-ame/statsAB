@@ -3,9 +3,53 @@
 <ContentProperties DeviceType="Desktop">
   <Component type="ScriptPanel" id="Background" x="0" y="0" width="1200" height="1000"
              bgColour="4279243286" itemColour="4279243286" itemColour2="4279243286"
-             textColour="4279243286"/>
+             textColour="4279243286">
+    <Component type="ScriptButton" id="switch_B" x="600" y="10" width="100"
+               height="30" parentComponent="Background" text="B"/>
+    <Component type="ScriptButton" id="switch_A" x="500" y="10" width="100"
+               height="30" parentComponent="Background" text="A" saveInPreset="0"
+               processorId=""/>
+  </Component>
   <Component type="ScriptPanel" id="SpectrumPanel" x="0" y="40" width="1000"
              height="320" processorId="SpectrumFX"/>
   <Component type="ScriptPanel" id="GoniometerPanel" x="0" y="360" width="320"
              height="320"/>
+  <Component type="ScriptPanel" id="MeterPanel" x="1000" y="40" width="200"
+             height="320" borderSize="0.0" bgColour="4279243286" itemColour="4279243286"
+             itemColour2="4279243286" textColour="4279243286">
+    <Component type="ScriptSlider" id="peakASlider" x="120" y="50" middlePosition="-30.0"
+               suffix=" db" style="Vertical" width="20" height="250" processorId="GlobalCable"
+               parameterId="peak_A" mode="Decibel" min="-100.0" max="0.0" enabled="0"
+               itemColour="1711276032" itemColour2="4211081216" textColour="4294704123"
+               bgColour="2572536063" parentComponent="MeterPanel"/>
+    <Component type="ScriptSlider" id="lufsASlider" x="20" y="50" middlePosition="-30.0"
+               min="-100.0" max="0.0" suffix=" lufs" mode="Decibel" style="Vertical"
+               width="20" height="250" processorId="GlobalCable" parameterId="lufs_A"
+               sendValueOnDrag="0" enabled="0" parentComponent="MeterPanel"
+               bgColour="1442840575" itemColour="1714631475" itemColour2="4212199697"
+               textColour="4294967295"/>
+    <Component type="ScriptSlider" id="peakBSlider" x="160" y="50" middlePosition="-30.0"
+               suffix=" db" style="Vertical" width="20" height="250" processorId="GlobalCable"
+               parameterId="peak_B" mode="Decibel" min="-100.0" max="0.0" enabled="0"
+               parentComponent="MeterPanel" bgColour="1442840575" itemColour="1714631475"
+               itemColour2="4212199697" textColour="4294967295"/>
+    <Component type="ScriptSlider" id="lufsBSlider" x="60" y="50" middlePosition="-30.0"
+               min="-100.0" max="0.0" suffix=" lufs" mode="Decibel" style="Vertical"
+               width="20" height="250" processorId="GlobalCable" parameterId="lufs_B"
+               sendValueOnDrag="0" enabled="0" parentComponent="MeterPanel"
+               bgColour="1442840575" itemColour="1714631475" itemColour2="4212199697"
+               textColour="4294967295"/>
+    <Component type="ScriptLabel" id="ScriptLabel1" x="0" y="-30" width="100"
+               height="100" parentComponent="MeterPanel" text="LUFS" editable="0"/>
+    <Component type="ScriptLabel" id="ScriptLabel2" x="100" y="-30" width="100"
+               height="100" parentComponent="MeterPanel" text="PEAK" editable="0"/>
+    <Component type="ScriptLabel" id="label_lufs_A" x="-20" y="-10" width="100"
+               height="100" parentComponent="MeterPanel" text="-100.0" editable="0"/>
+    <Component type="ScriptLabel" id="label_lufs_B" x="20" y="-10" width="100"
+               height="100" parentComponent="MeterPanel" text="-100.0" editable="0"/>
+    <Component type="ScriptLabel" id="label_peak_A" x="80" y="-10" width="100"
+               height="100" parentComponent="MeterPanel" text="-100.0" editable="0"/>
+    <Component type="ScriptLabel" id="label_peak_B" x="140" y="-10" width="60"
+               height="100" parentComponent="MeterPanel" text="-100.0" editable="0"/>
+  </Component>
 </ContentProperties>

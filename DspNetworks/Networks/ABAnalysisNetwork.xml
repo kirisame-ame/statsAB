@@ -1,11 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Network ID="ABAnalysisNetwork" Version="0.0.0" CompileChannelAmount="8">
+<Network ID="ABAnalysisNetwork" Version="0.0.0" CompileChannelAmount="8"
+         AllowCompilation="1" ShowComments="0">
   <Node FactoryPath="container.chain" ID="ABAnalysisNetwork" Bypassed="0"
-        Name="ABAnalysisNetwork">
+        Name="ABAnalysisNetwork" ShowParameters="0">
     <Nodes>
+      <Node ID="svf" FactoryPath="filters.svf" Bypassed="0" Name="svf">
+        <ComplexData>
+          <Filters>
+            <Filter Index="-1"/>
+          </Filters>
+        </ComplexData>
+        <Parameters>
+          <Parameter MinValue="20.0" MaxValue="20000.0" SkewFactor="0.2299045622348785"
+                     ID="Frequency" TextToValueConverter="Frequency" Value="6729.384043119"
+                     DefaultValue="1000.0"/>
+          <Parameter MinValue="0.300000011920929" MaxValue="9.899999618530273" SkewFactor="0.8776356511879675"
+                     ID="Q" Value="0.300000011920929" DefaultValue="1.0"/>
+          <Parameter MinValue="-18.0" MaxValue="18.0" ID="Gain" TextToValueConverter="Decibel"
+                     Value="0.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" SkewFactor="0.3010300099849701"
+                     ID="Smoothing" Value="0.009999999776482582"/>
+          <Parameter MinValue="0.0" MaxValue="4.0" StepSize="1.0" ID="Mode" Value="2.0"
+                     DefaultValue="0.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Enabled" Value="0.0"
+                     DefaultValue="1.0"/>
+        </Parameters>
+      </Node>
       <Node ID="split" FactoryPath="container.split" Bypassed="0" Name="split"
-            NodeColour="2449408000">
+            NodeColour="2449408000" ShowParameters="0">
         <Nodes>
           <Node ID="chain1" FactoryPath="container.chain" Bypassed="0" Name="chain1"
                 NodeColour="1761672995">
@@ -56,28 +79,165 @@
           <Node ID="chain" FactoryPath="container.chain" Bypassed="0" Name="chain"
                 NodeColour="1762660582">
             <Nodes>
-              <Node ID="multi" FactoryPath="container.multi" Bypassed="0" Name="multi_1">
+              <Node ID="multi2" FactoryPath="container.multi" Bypassed="0" Name="multi2">
                 <Nodes>
-                  <Node ID="goniometer" FactoryPath="analyse.goniometer" Bypassed="0"
-                        Name="goniometer_a">
-                    <ComplexData>
-                      <DisplayBuffers>
-                        <DisplayBuffer Index="2"/>
-                      </DisplayBuffers>
-                    </ComplexData>
+                  <Node ID="chain2" FactoryPath="container.chain" Bypassed="0" Name="chain2">
+                    <Nodes>
+                      <Node ID="goniometer" FactoryPath="analyse.goniometer" Bypassed="0"
+                            Name="goniometer_a">
+                        <ComplexData>
+                          <DisplayBuffers>
+                            <DisplayBuffer Index="2"/>
+                          </DisplayBuffers>
+                        </ComplexData>
+                        <Parameters/>
+                      </Node>
+                      <Node ID="peak" FactoryPath="core.peak" Bypassed="0" Name="peak">
+                        <ModulationTargets>
+                          <Connection NodeId="global_cable" ParameterId="Value"/>
+                        </ModulationTargets>
+                        <ComplexData>
+                          <DisplayBuffers>
+                            <DisplayBuffer Index="-1"/>
+                          </DisplayBuffers>
+                        </ComplexData>
+                        <Parameters/>
+                      </Node>
+                      <Node ID="global_cable" FactoryPath="routing.global_cable" Bypassed="0"
+                            Name="global_cable" NodeColour="4288628658">
+                        <Properties>
+                          <Property ID="Connection" Value="peak_A"/>
+                        </Properties>
+                        <Parameters>
+                          <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" DefaultValue="1.0" Automated="1"/>
+                        </Parameters>
+                      </Node>
+                      <Node ID="Griffin_Lufs1" FactoryPath="project.Griffin_Lufs" Bypassed="0"
+                            Name="lufs_A">
+                        <ModulationTargets>
+                          <Connection NodeId="global_cable2" ParameterId="Value"/>
+                        </ModulationTargets>
+                        <Parameters>
+                          <Parameter MinValue="100.0" MaxValue="4000.0" ID="LUFS Window (ms)" Value="300.0"/>
+                          <Parameter MinValue="0.00009999999747378752" MaxValue="0.9998999834060669"
+                                     ID="Overlap" Value="0.8179820052195135" DefaultValue="0.75"/>
+                        </Parameters>
+                      </Node>
+                      <Node ID="global_cable2" FactoryPath="routing.global_cable" Bypassed="0"
+                            Name="global_cable2" NodeColour="4289873753">
+                        <Properties>
+                          <Property ID="Connection" Value="lufs_A"/>
+                        </Properties>
+                        <Parameters>
+                          <Parameter MinValue="-100.0" MaxValue="0.0" ID="Value" Automated="1"/>
+                        </Parameters>
+                      </Node>
+                      <Node ID="gain1" FactoryPath="core.gain" Bypassed="0" Name="gain1">
+                        <Parameters>
+                          <Parameter MinValue="-100.0" MaxValue="0.0" StepSize="0.1000000014901161"
+                                     SkewFactor="5.422270774841309" ID="Gain" TextToValueConverter="Decibel"
+                                     Automated="1"/>
+                          <Parameter MinValue="0.0" MaxValue="1000.0" StepSize="0.1000000014901161"
+                                     SkewFactor="0.3010300099849701" ID="Smoothing" TextToValueConverter="Time"
+                                     Value="20.0"/>
+                          <Parameter MinValue="-100.0" MaxValue="0.0" StepSize="0.1000000014901161"
+                                     SkewFactor="5.422270774841309" ID="ResetValue" TextToValueConverter="Decibel"
+                                     Value="0.0"/>
+                        </Parameters>
+                      </Node>
+                    </Nodes>
                     <Parameters/>
                   </Node>
-                  <Node ID="goniometer1" FactoryPath="analyse.goniometer" Bypassed="0"
-                        Name="goniometer_b">
-                    <ComplexData>
-                      <DisplayBuffers>
-                        <DisplayBuffer Index="3"/>
-                      </DisplayBuffers>
-                    </ComplexData>
+                  <Node ID="chain3" FactoryPath="container.chain" Bypassed="0" Name="chain3">
+                    <Nodes>
+                      <Node ID="goniometer1" FactoryPath="analyse.goniometer" Bypassed="0"
+                            Name="goniometer_b">
+                        <ComplexData>
+                          <DisplayBuffers>
+                            <DisplayBuffer Index="3"/>
+                          </DisplayBuffers>
+                        </ComplexData>
+                        <Parameters/>
+                      </Node>
+                      <Node ID="peak1" FactoryPath="core.peak" Bypassed="0" Name="peak1">
+                        <ModulationTargets>
+                          <Connection NodeId="global_cable1" ParameterId="Value"/>
+                        </ModulationTargets>
+                        <ComplexData>
+                          <DisplayBuffers>
+                            <DisplayBuffer Index="-1"/>
+                          </DisplayBuffers>
+                        </ComplexData>
+                        <Parameters/>
+                      </Node>
+                      <Node ID="global_cable1" FactoryPath="routing.global_cable" Bypassed="0"
+                            Name="global_cable1" NodeColour="4288432050">
+                        <Properties>
+                          <Property ID="Connection" Value="peak_B"/>
+                        </Properties>
+                        <Parameters>
+                          <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" DefaultValue="1.0" Automated="1"/>
+                        </Parameters>
+                      </Node>
+                      <Node ID="Griffin_Lufs" FactoryPath="project.Griffin_Lufs" Bypassed="0"
+                            Name="lufs_B">
+                        <ModulationTargets>
+                          <Connection NodeId="global_cable3" ParameterId="Value"/>
+                        </ModulationTargets>
+                        <Parameters>
+                          <Parameter MinValue="100.0" MaxValue="4000.0" ID="LUFS Window (ms)" Value="300.0"/>
+                          <Parameter MinValue="0.00009999999747378752" MaxValue="0.9998999834060669"
+                                     ID="Overlap" Value="0.75"/>
+                        </Parameters>
+                      </Node>
+                      <Node ID="global_cable3" FactoryPath="routing.global_cable" Bypassed="0"
+                            Name="global_cable3" NodeColour="4289873754">
+                        <Properties>
+                          <Property ID="Connection" Value="lufs_B"/>
+                        </Properties>
+                        <Parameters>
+                          <Parameter MinValue="-100.0" MaxValue="0.0" ID="Value" Automated="1"/>
+                        </Parameters>
+                      </Node>
+                      <Node ID="gain2" FactoryPath="core.gain" Bypassed="0" Name="gain2">
+                        <Parameters>
+                          <Parameter MinValue="-100.0" MaxValue="0.0" StepSize="0.1000000014901161"
+                                     SkewFactor="5.422270774841309" ID="Gain" TextToValueConverter="Decibel"
+                                     Automated="1"/>
+                          <Parameter MinValue="0.0" MaxValue="1000.0" StepSize="0.1000000014901161"
+                                     SkewFactor="0.3010300099849701" ID="Smoothing" TextToValueConverter="Time"
+                                     Value="20.0"/>
+                          <Parameter MinValue="-100.0" MaxValue="0.0" StepSize="0.1000000014901161"
+                                     SkewFactor="5.422270774841309" ID="ResetValue" TextToValueConverter="Decibel"
+                                     Value="0.0"/>
+                        </Parameters>
+                      </Node>
+                    </Nodes>
                     <Parameters/>
                   </Node>
                 </Nodes>
                 <Parameters/>
+              </Node>
+              <Node ID="xfader" FactoryPath="control.xfader" Bypassed="0" Name="xfader">
+                <Properties>
+                  <Property ID="NumParameters" Value="2"/>
+                  <Property ID="Mode" Value="RMS"/>
+                </Properties>
+                <SwitchTargets>
+                  <SwitchTarget>
+                    <Connections>
+                      <Connection NodeId="gain1" ParameterId="Gain"/>
+                    </Connections>
+                  </SwitchTarget>
+                  <SwitchTarget>
+                    <Connections>
+                      <Connection NodeId="gain2" ParameterId="Gain"/>
+                    </Connections>
+                  </SwitchTarget>
+                </SwitchTargets>
+                <Parameters>
+                  <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Automated="1"/>
+                </Parameters>
               </Node>
             </Nodes>
             <Parameters/>
@@ -86,6 +246,13 @@
         <Parameters/>
       </Node>
     </Nodes>
-    <Parameters/>
+    <Parameters>
+      <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1" ID="MonitorSelect"
+                 Value="0.0" ExternalModulation="Disabled" ModColour="0">
+        <Connections>
+          <Connection NodeId="xfader" ParameterId="Value"/>
+        </Connections>
+      </Parameter>
+    </Parameters>
   </Node>
 </Network>

@@ -1,0 +1,70 @@
+/*
+   A/B level meters
+
+   The four meter components are vertical ScriptSliders.  The component
+   outline is deliberately kept neutral; only the small value thumb carries
+   the source colour.  HISE exposes the current slider value as --value
+   (normalised to 0...1).
+*/
+
+.scriptslider {
+  background: rgba(16, 18, 22, 0.18);
+  border: 1px solid #3f4652;
+  border-radius: 4px;
+  margin: 0px;
+  color: #9299a6;
+  font-size: 8px;
+  vertical-align: bottom;
+  overflow: visible;
+}
+
+/* The value bar. It must be anchored with bottom, otherwise an absolutely
+   positioned element with a value-dependent height grows down from the top. */
+.scriptslider::before {
+  content: "";
+  position: absolute;
+
+  bottom: 0%;
+  height: calc(100% * var(--value));
+  background: #9299a6;
+  border: 0px;
+  border-radius: 2px;
+  box-shadow: 0px 0px 5px rgba(146, 153, 166, 0.35);
+}
+
+#peakASlider::before,
+#lufsASlider::before {
+  background: #55c8ff;
+  box-shadow: 0px 0px 6px rgba(85, 200, 255, 0.55);
+}
+
+/* Source B: matches the spectrum and goniometer red. */
+#peakBSlider::after,
+#lufsBSlider::after {
+  background: #ff4d4d;
+  box-shadow: 0px 0px 6px rgba(255, 77, 77, 0.7);
+}
+
+#peakBSlider::before,
+#lufsBSlider::before {
+  background: #ff4d4d;
+  box-shadow: 0px 0px 6px rgba(255, 77, 77, 0.55);
+}
+
+/* These controls are display-only, so disabled means non-interactive rather
+   than visually muted. Keep the outline neutral and the live thumb visible. */
+.scriptslider:disabled {
+  background: rgba(16, 18, 22, 0.18);
+  border-color: #3f4652;
+  opacity: 1;
+}
+
+.scriptslider:disabled::after {
+  opacity: 1;
+}
+#peakASlider,
+#lufsASlider,
+#peakBSlider,
+#lufsBSlider {
+  color: rgba(0, 0, 0, 0);
+}
